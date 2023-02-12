@@ -5,7 +5,6 @@ def solution():
         raw = f.readlines()
     
     grid = [list(line.strip()) for line in raw]
-    print(grid)
     
     def is_lowest(y, x):
         if x > 0 and grid[y][x] >= grid[y][x-1]:
