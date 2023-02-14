@@ -1,8 +1,6 @@
 def solution():
     with open('input.txt') as f:
-        raw = f.readlines()
-        
-    lines = [line.strip() for line in raw]
+        lines = [line.strip() for line in f.readlines()]
     
     pairing_lookup = {
         '{' : '}',
@@ -35,22 +33,18 @@ def solution():
                 case '{' | '(' | '[' | '<':
                     stack.append(char)
                 case _:
-                    top = stack.pop()
-                    if pairing_lookup[top] != char:
+                    if pairing_lookup[stack.pop()] != char:
                         error_score += error_score_lookup[char]
                         break
         else:
-            #print(''.join(stack))
             completion_score = 0
             while stack:
-                completion_score *= 5
-                char = stack.pop()
-                completion_score += completion_score_lookup[char]
+                completion_score = completion_score * 5 + completion_score_lookup[stack.pop()]
             completion_scores.append(completion_score)
     
     completion_scores.sort()
                  
-    return error_score, completion_scores[len(completion_scores)//2]
+    return f'part one: {error_score}\npart two: {completion_scores[len(completion_scores)//2]}'
 
 if __name__ == '__main__':
     print(solution())
